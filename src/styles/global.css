@@ -1,0 +1,70 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+html {
+	--brand: hsl(214, 40%, 50%);
+
+	/*
+   * More info on what’s happening with color-mix() here:
+   * https://developer.chrome.com/blog/css-color-mix/
+   */
+	--text-heading-light: color-mix(in oklab, var(--brand) 25%, black);
+	--text-body-light: color-mix(in oklab, var(--brand) 40%, black);
+	--text-muted-light: color-mix(
+		in oklab,
+		color-mix(in oklab, var(--brand) 50%, white) 70%,
+		black
+	);
+	--surface-main-light: color-mix(in oklab, var(--brand) 20%, white);
+	--surface-secondary-light: color-mix(in oklab, var(--brand) 5%, white);
+
+	--text-heading-dark: color-mix(in oklab, var(--brand) 10%, white);
+	--text-body-dark: color-mix(in oklab, var(--brand) 20%, white);
+	--text-muted-dark: color-mix(
+		in oklab,
+		color-mix(in oklab, var(--brand) 40%, black) 50%,
+		white
+	);
+	--surface-main-dark: color-mix(in oklab, var(--brand) 40%, black);
+	--surface-secondary-dark: color-mix(in oklab, var(--brand) 5%, black);
+
+	background: var(--surface-main);
+	color: var(--text-body);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+		Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-size: 16px;
+	line-height: 1.45;
+}
+
+:root {
+	color-scheme: light dark;
+	--text-heading: var(--text-heading-light);
+	--text-body: var(--text-body-light);
+	--text-muted: var(--text-muted-light);
+	--surface-main: var(--surface-main-light);
+	--surface-secondary: var(--surface-secondary-light);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+		--text-heading: var(--text-heading-dark);
+		--text-body: var(--text-body-dark);
+		--text-muted: var(--text-muted-dark);
+		--surface-main: var(--surface-main-dark);
+		--surface-secondary: var(--surface-secondary-dark);
+	}
+}
+
+body {
+	margin: 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+	color: var(--text-heading);
+	line-height: 1.1;
+}

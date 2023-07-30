@@ -1,0 +1,46 @@
+.messages {
+	list-style-type: none;
+	padding: 0 2rem 2rem;
+}
+
+.message {
+	background: var(--surface-secondary);
+	border-radius: 0.5rem;
+	margin-block-start: 2rem;
+	padding: 1.5rem 1.5rem 1rem;
+	overflow: hidden;
+}
+
+@media (min-width: 650px) {
+	.wrapper {
+		grid-row: span 2;
+		max-height: 100vh;
+		overflow-y: scroll;
+	}
+
+	.messages {
+		align-items: start;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 300px);
+		gap: 1rem;
+		margin-block-start: 0;
+		order: 1;
+		overflow-x: scroll;
+		padding-block-start: 2rem;
+	}
+}
+
+.image {
+	margin: -1.5rem -1.5rem 0;
+	width: calc(100% + 3rem);
+}
+
+.text {
+	margin: 0.5rem 0;
+}
+
+.meta {
+	color: var(--text-muted);
+	font-size: 0.75rem;
+	margin: 0;
+}

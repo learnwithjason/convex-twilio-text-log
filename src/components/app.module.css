@@ -1,0 +1,63 @@
+@media (min-width: 650px) {
+	.container {
+		display: grid;
+		grid-template-columns: 240px 1fr;
+		grid-template-rows: 2fr 1fr;
+	}
+}
+
+.signup {
+	background: var(--surface-secondary);
+	border-radius: 0.5rem;
+	margin: 15vh auto;
+	width: min(650px, 90vw);
+	padding: 3rem;
+	text-align: center;
+
+	& p {
+		margin-block: 0.75rem 1rem;
+	}
+
+	& .tutorial {
+		margin: 3rem auto 0;
+		max-width: 360px;
+	}
+}
+
+.buttons {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	margin-block-start: 1.25rem;
+
+	& button {
+		background: var(--brand);
+		border: 0;
+		border-radius: 0.25rem;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+			Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+			'Segoe UI Symbol';
+		font-size: 1.25rem;
+		padding: 0.5rem 1rem;
+	}
+}
+
+.footer {
+	background: var(--surface-secondary);
+	display: flex;
+	flex-direction: column;
+	font-size: 0.75rem;
+	gap: 0.5rem;
+	padding: 2rem;
+	text-align: center;
+}
+
+.footer a {
+	color: inherit;
+	padding: 0.5rem;
+	text-decoration: none;
+
+	&:is(:active, :hover) {
+		text-decoration: underline;
+	}
+}

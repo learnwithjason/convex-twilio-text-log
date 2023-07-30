@@ -1,0 +1,49 @@
+.sidebar {
+	background: var(--surface-secondary);
+	font-size: 0.875rem;
+}
+
+.sticky {
+	padding: 2rem;
+}
+
+.header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+a[rel='home'] {
+	color: var(--text-heading);
+	font-size: 1.125rem;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.instructions {
+	margin-block-start: 2rem;
+	text-align: center;
+}
+
+@media (min-width: 650px) {
+	.instructions {
+		margin-block: 4rem;
+	}
+}
+
+.heading {
+	font-size: 1.75rem;
+	margin: 0 0 1rem;
+	text-wrap: balance;
+}
+
+.postNumber {
+	background: var(--surface-main);
+	border-radius: 0.25rem;
+	color: inherit;
+	display: block;
+	font-size: 1.125rem;
+	margin-block: 0.25rem;
+	padding: 0.5rem;
+	text-decoration: none;
+}
