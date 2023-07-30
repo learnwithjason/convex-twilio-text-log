@@ -1,6 +1,7 @@
 .messages {
 	list-style-type: none;
 	padding: 0 2rem 2rem;
+	width: 100%;
 }
 
 .message {
@@ -14,7 +15,7 @@
 @media (min-width: 650px) {
 	.wrapper {
 		grid-row: span 2;
-		max-height: 100vh;
+		height: 100vh;
 		overflow-y: scroll;
 	}
 
@@ -43,4 +44,28 @@
 	color: var(--text-muted);
 	font-size: 0.75rem;
 	margin: 0;
+}
+
+.empty {
+	background: var(--surface-secondary);
+	border-radius: 0.5rem;
+	margin: 15vh auto;
+	width: min(650px, 90%);
+	padding: 3rem;
+	text-align: center;
+
+	& p {
+		margin-block: 0.75rem 1rem;
+	}
+
+	& a {
+		background: var(--surface-main);
+		border-radius: 0.25rem;
+		color: inherit;
+		display: block;
+		font-size: 1.5rem;
+		margin-block: 1rem;
+		padding: 0.5rem;
+		text-decoration: none;
+	}
 }
