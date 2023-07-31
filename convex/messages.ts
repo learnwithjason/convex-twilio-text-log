@@ -52,7 +52,7 @@ export const save = httpAction(async (ctx, req) => {
 		});
 	}
 
-	let msg: Message = {
+	const msg: Message = {
 		text,
 		sender,
 		image: null,
