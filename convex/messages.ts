@@ -6,10 +6,12 @@ import {
 } from './_generated/server';
 import { Doc } from '../convex/_generated/dataModel';
 import { internal } from './_generated/api';
+import { v } from 'convex/values';
+import { WithoutSystemFields } from 'convex/server';
+import { MessageFields } from './schema';
 
 // let Convex define the type, leaving out generated fields
-type Message = Omit<Doc<'messages'>, '_id' | '_creationTime'>;
-type QueryArgs = Pick<Doc<'messages'>, 'sender'>;
+type Message = WithoutSystemFields<Doc<'messages'>>;
 
 export const get = query({
 	handler: async (ctx, { sender }: QueryArgs) => {
@@ -72,8 +74,11 @@ export const save = httpAction(async (ctx, req) => {
 	});
 });
 
-export const saveMessage = internalMutation(async (ctx, args: Message) => {
-	await ctx.db.insert('messages', args);
+export const saveMessage = internalMutation({
+	args: MessageFields,
+	handler: async (ctx, args) => {
+		await ctx.db.insert('messages', args);
+	},
 });
 
 export const storeImage = internalAction(
