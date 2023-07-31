@@ -1,4 +1,3 @@
-import { useUser } from '@clerk/clerk-react';
 import { useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 
@@ -19,13 +18,8 @@ const Empty = () => {
 };
 
 export const Messages = () => {
-	const { user } = useUser();
-
-	// the user MUST provide a phone number to sign up, so know this is set
-	const sender = user!.primaryPhoneNumber!.phoneNumber;
-
 	// load all messages from the currently logged in user
-	const messages = useQuery(api.messages.get, { sender }) || [];
+	const messages = useQuery(api.messages.get) || [];
 
 	return (
 		<section className={styles.wrapper}>

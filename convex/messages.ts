@@ -14,14 +14,15 @@ import { MessageFields } from './schema';
 type Message = WithoutSystemFields<Doc<'messages'>>;
 
 export const get = query({
-	handler: async (ctx, { sender }: QueryArgs) => {
-		if (!sender) {
+	handler: async (ctx) => {
+		const identity = await ctx.auth.getUserIdentity();
+		if (!identity || !identity.phoneNumberVerified) {
 			return [];
 		}
 
 		const messages = await ctx.db
 			.query('messages')
-			.withIndex('by_sender', (q) => q.eq('sender', sender))
+			.withIndex('by_sender', (q) => q.eq('sender', identity.phoneNumber!))
 			.collect();
 
 		return messages;
