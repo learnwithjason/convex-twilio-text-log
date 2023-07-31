@@ -1,5 +1,5 @@
 import { SignInButton, SignUpButton } from '@clerk/clerk-react';
-import { Authenticated, Unauthenticated } from 'convex/react';
+import { Authenticated, Unauthenticated, AuthLoading } from 'convex/react';
 import { Messages } from './messages';
 import { Sidebar } from './sidebar';
 
@@ -23,6 +23,7 @@ export const App = () => {
 					</footer>
 				</main>
 			</Authenticated>
+			{/* <AuthLoading>...</AuthLoading> */}
 			<Unauthenticated>
 				<main className={styles.signup}>
 					<h1>This demo requires a free account</h1>
