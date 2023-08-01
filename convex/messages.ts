@@ -6,7 +6,6 @@ import {
 } from './_generated/server';
 import { Doc } from '../convex/_generated/dataModel';
 import { internal } from './_generated/api';
-import { v } from 'convex/values';
 import { WithoutSystemFields } from 'convex/server';
 import { MessageFields } from './schema';
 
@@ -42,6 +41,22 @@ export const save = httpAction(async (ctx, req) => {
 	 * https://www.twilio.com/docs/messaging/guides/webhook-request
 	 */
 	const message = new URLSearchParams(body);
+
+	const isValidWebhook = await ctx.runAction(
+		internal.twilio.validateTwilioWebhook,
+		{
+			webhookUrl: `https://${req.headers.get('host')}/messages`,
+			twilioSignature: req.headers.get('x-twilio-signature') as string,
+			params: Object.fromEntries(message.entries()),
+		},
+	);
+
+	if (!isValidWebhook) {
+		return new Response(null, {
+			status: 422,
+		});
+	}
+
 	const text = message.get('Body') ?? '';
 	const sender = message.get('From');
 	const imageUrl = message.get('MediaUrl0');
