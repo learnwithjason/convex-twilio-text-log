@@ -1,25 +1,28 @@
 import {
+	ActionCtx,
 	httpAction,
-	internalAction,
 	internalMutation,
 	query,
 } from './_generated/server';
 import { Doc } from '../convex/_generated/dataModel';
 import { internal } from './_generated/api';
+import { v } from 'convex/values';
+import { WithoutSystemFields } from 'convex/server';
+import { MessageFields } from './schema';
 
 // let Convex define the type, leaving out generated fields
-type Message = Omit<Doc<'messages'>, '_id' | '_creationTime'>;
-type QueryArgs = Pick<Doc<'messages'>, 'sender'>;
+type Message = WithoutSystemFields<Doc<'messages'>>;
 
 export const get = query({
-	handler: async (ctx, { sender }: QueryArgs) => {
-		if (!sender) {
+	handler: async (ctx) => {
+		const identity = await ctx.auth.getUserIdentity();
+		if (!identity || !identity.phoneNumberVerified) {
 			return [];
 		}
 
 		const messages = await ctx.db
 			.query('messages')
-			.withIndex('by_sender', (q) => q.eq('sender', sender))
+			.withIndex('by_sender', (q) => q.eq('sender', identity.phoneNumber!))
 			.collect();
 
 		return messages;
@@ -49,7 +52,7 @@ export const save = httpAction(async (ctx, req) => {
 		});
 	}
 
-	let msg: Message = {
+	const msg: Message = {
 		text,
 		sender,
 		image: null,
@@ -57,9 +60,7 @@ export const save = httpAction(async (ctx, req) => {
 
 	if (imageUrl) {
 		try {
-			msg.image = await ctx.runAction(internal.messages.storeImage, {
-				imageUrl,
-			});
+			msg.image = await storeImage(ctx, imageUrl);
 		} catch (err) {
 			console.error(`failed to store image (url: ${imageUrl})`);
 		}
@@ -72,23 +73,24 @@ export const save = httpAction(async (ctx, req) => {
 	});
 });
 
-export const saveMessage = internalMutation(async (ctx, args: Message) => {
-	await ctx.db.insert('messages', args);
+export const saveMessage = internalMutation({
+	args: MessageFields,
+	handler: async (ctx, args) => {
+		await ctx.db.insert('messages', args);
+	},
 });
 
-export const storeImage = internalAction(
-	async (ctx, { imageUrl }: { imageUrl: string }) => {
-		const res = await fetch(imageUrl);
+export const storeImage = async (ctx: ActionCtx, imageUrl: string) => {
+	const res = await fetch(imageUrl);
 
-		if (!res.ok) {
-			console.error(res);
-			return null;
-		}
+	if (!res.ok) {
+		console.error(res);
+		return null;
+	}
 
-		const blob = await res.blob();
-		const id = await ctx.storage.store(blob);
-		const url = await ctx.storage.getUrl(id);
+	const blob = await res.blob();
+	const id = await ctx.storage.store(blob);
+	const url = await ctx.storage.getUrl(id);
 
-		return { id, url };
-	},
-);
+	return { id, url };
+};
