@@ -16,7 +16,7 @@ import type {
 } from "convex/server";
 import type * as http from "../http";
 import type * as messages from "../messages";
-import type * as twilio from "../twilio";
+import type * as validate from "../validate";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,7 +29,7 @@ import type * as twilio from "../twilio";
 declare const fullApi: ApiFromModules<{
   http: typeof http;
   messages: typeof messages;
-  twilio: typeof twilio;
+  validate: typeof validate;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

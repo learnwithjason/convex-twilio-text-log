@@ -42,14 +42,11 @@ export const save = httpAction(async (ctx, req) => {
 	 */
 	const message = new URLSearchParams(body);
 
-	const isValidWebhook = await ctx.runAction(
-		internal.twilio.validateTwilioWebhook,
-		{
-			webhookUrl: `https://${req.headers.get('host')}/messages`,
-			twilioSignature: req.headers.get('x-twilio-signature') as string,
-			params: Object.fromEntries(message.entries()),
-		},
-	);
+	const isValidWebhook = await ctx.runAction(internal.validate.twilioWebhook, {
+		url: req.url,
+		signature: req.headers.get('x-twilio-signature') ?? '',
+		params: Object.fromEntries(message.entries()),
+	});
 
 	if (!isValidWebhook) {
 		return new Response(null, {
