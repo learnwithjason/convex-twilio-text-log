@@ -1,3 +1,6 @@
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
+
 import styles from './messages.module.css';
 
 const Empty = () => {
@@ -17,13 +20,27 @@ const Empty = () => {
 };
 
 export const Messages = () => {
-	// TODO: load all messages from the currently logged in user
-	const messages = [];
+	// load all messages from the currently logged in user
+	const messages = useQuery(api.messages.get) || [];
 
 	return (
 		<section className={styles.wrapper}>
 			{messages.length > 0 ? (
-				<ul className={styles.messages}>{/* TODO: display messages */}</ul>
+				<ul className={styles.messages}>
+					{messages.map(({ _id, _creationTime, text, image }) => {
+						return (
+							<li key={_id} className={styles.message}>
+								{image && image.url ? (
+									<img className={styles.image} src={image.url} alt={text} />
+								) : null}
+								<p className={styles.text}>{text}</p>
+								<p className={styles.meta}>
+									Posted {new Date(_creationTime).toLocaleString()}
+								</p>
+							</li>
+						);
+					})}
+				</ul>
 			) : (
 				<Empty />
 			)}
