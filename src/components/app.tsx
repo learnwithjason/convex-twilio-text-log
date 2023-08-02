@@ -1,5 +1,9 @@
-import { SignInButton, SignUpButton } from '@clerk/clerk-react';
-import { Authenticated, Unauthenticated } from 'convex/react';
+import {
+	SignInButton,
+	SignUpButton,
+	SignedIn,
+	SignedOut,
+} from '@clerk/clerk-react';
 import { Messages } from './messages';
 import { Sidebar } from './sidebar';
 
@@ -8,7 +12,7 @@ import styles from './app.module.css';
 export const App = () => {
 	return (
 		<>
-			<Authenticated>
+			<SignedIn>
 				<main className={styles.container}>
 					<Sidebar />
 					<Messages />
@@ -22,9 +26,8 @@ export const App = () => {
 						<a href="https://lwj.dev/convex">try Convex</a>
 					</footer>
 				</main>
-			</Authenticated>
-			{/* <AuthLoading>...</AuthLoading> */}
-			<Unauthenticated>
+			</SignedIn>
+			<SignedOut>
 				<main className={styles.signup}>
 					<h1>This demo requires a free account</h1>
 					<p>
@@ -47,7 +50,7 @@ export const App = () => {
 						</p>
 					</div>
 				</main>
-			</Unauthenticated>
+			</SignedOut>
 		</>
 	);
 };
