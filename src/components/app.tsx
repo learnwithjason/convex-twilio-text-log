@@ -1,5 +1,5 @@
 import { SignInButton, SignUpButton } from '@clerk/clerk-react';
-import { Authenticated, Unauthenticated, AuthLoading } from 'convex/react';
+import { Authenticated, Unauthenticated } from 'convex/react';
 import { Messages } from './messages';
 import { Sidebar } from './sidebar';
 

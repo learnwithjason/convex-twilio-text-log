@@ -9,9 +9,10 @@ export const MessageFields = {
 			id: v.string(),
 			url: v.union(v.string(), v.null()),
 		}),
-		v.null()
+		v.null(),
 	),
 };
+
 export default defineSchema({
 	messages: defineTable(MessageFields).index('by_sender', ['sender']),
 });
